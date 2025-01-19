@@ -7,7 +7,6 @@ def getposts(topic: str, days, sortby):
         days = datetime.now().date()
     if not sortby:
         sortby = "Popularity"
-    print(days)
 
     KEY = "4918a39177f64b02a96be747c45b4296"
     url = f"https://newsapi.org/v2/everything?q={
