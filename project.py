@@ -1,8 +1,13 @@
 import requests
 from datetime import datetime
+import platform
 import json
 import sys
+import os
 
+def clear():
+    if platform.system() == 'Windows':
+        os.system('cls')
 
 def getposts(topic: str, days, sortby):
     if not days:
@@ -11,8 +16,7 @@ def getposts(topic: str, days, sortby):
         sortby = "Popularity"
 
     KEY = "4918a39177f64b02a96be747c45b4296"
-    url = f"https://newsapi.org/v2/everything?q={
-        topic}&from={days}&sortBy={sortby}&apiKey={KEY}"
+    url = f"https://newsapi.org/v2/everything?q={topic}&from={days}&sortBy={sortby}&apiKey={KEY}"
     feedback = requests.get(url)
     result = feedback.json()
     return result
@@ -20,16 +24,15 @@ def getposts(topic: str, days, sortby):
 
 def get_top_headlines(keyword):
     KEY = "4918a39177f64b02a96be747c45b4296"
-    url = f"https://newsapi.org/v2/top-headlines?country={
-        keyword}&apiKey={KEY}"
+    url = f"https://newsapi.org/v2/top-headlines?country={keyword}&apiKey={KEY}"
     feedback = requests.get(url)
     result = feedback.json()
     if len(result["articles"]) == 0:
         print("There is no headlines on this keyword")
-        return result
+    return result
 
 
-def save_news(result, filename='news.json'):
+def save_news(result, filename):
     try:
         articles = []
         for post in result["articles"]:
@@ -42,10 +45,9 @@ def save_news(result, filename='news.json'):
                     "urlToImage": post["urlToImage"]
                 }
             )
-
+          
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(articles, f, indent=4)
-
         print(f"\nSuccessfully saved news to {filename}")
 
     except Exception as e:
@@ -99,17 +101,21 @@ def main():
                 print(f"Error: {e}")
         elif choice == "3":
             if news:
-                filename = input(
-                    "Enter a file name: (if not, the default name is news.json)")
-                save_news(news, filename)
+                filename = input("Enter a file name: (if not, the default name is news.json)")
+                if not filename:
+                    filenamez = "news.json"
+                save_news(news, filenamez)
             else:
                 print("There are not any news before!")
         elif choice == "4":
             print("Exiting .....")
             sys.exit(0)
         else:
-            print("Invalid inputing!!!")
+            print("Invalid inputing!!!") 
+            
+
 
 
 if __name__ == "__main__":
+    clear()
     main()
