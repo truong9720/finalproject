@@ -6,7 +6,7 @@ from project import getposts, get_top_headlines, printposts, save_news
 
 
 def get_test_data():
-    return getposts("technology", "2025-01-06", "popularity")
+    return getposts("technology", "2025-02-01", "popularity")
 
 
 def test_getposts():
